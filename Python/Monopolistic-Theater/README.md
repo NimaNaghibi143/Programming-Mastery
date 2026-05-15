@@ -9,3 +9,14 @@ Unfortunately, the increased attendance also comes at an increased cost. Every p
 The owner would like to know the exact relationship between profit and ticket price in order to maximize the profit.
 
 Write a program to figure out the best ticket price (to the nearest 10 cents) that maximizes profit.
+
+
+## TIPS for running the programs in your own terminal:
+
+```bash
+## linux and WSL in windows:
+python -i <program_name>
+
+## Mac:
+python3 -i <rogram_name> 
+```

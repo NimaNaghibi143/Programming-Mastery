@@ -20,9 +20,23 @@ class ODESolver:
         self._initialize()
 
         for i in range(self.N-1):
-            derivatives = self.model.rhs(self.state[i])
-            self.state[i+1] = self.state[i] + self.h*(np.array(derivatives))
+            derivatives = self.model.rhs(self.t, self.state[i])
+            self.state[i+1] = self.state[i] + self.h*derivatives
             self.t += self.h
             self.t_values[i+1] = self.t
 
         return np.round(self.state, 1), self.t_values
+    
+    def RK2(self):
+        self._initialize()
+
+        for i in range(self.N-1):
+            y = self.state[i]
+            k1 = self.h * self.model.rhs(self.t, y)
+            k2 = self.h * self.model.rhs(self.t + (self.h/2), y + k1)
+            self.state[i+1] = y + (k1+k2)/2
+            self.t += self.h
+            self.t_values[i+1] = self.t
+        
+        return np.round(self.state, 1), self.t_values
+        

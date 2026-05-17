@@ -31,6 +31,10 @@ class ODESolver:
         self._initialize()
 
         for i in range(self.N-1):
+            # In the general notation, x is the independent variable (mostly time)
+            # and y the dependent variable. In our case, x is time (t) and y is the 
+            # [prey, predator] vector. Although time is not in the dx and dy equations,
+            # but is there for better compatibility of the code for non-autonomous systems.
             y = self.state[i]
             k1 = self.h * self.model.rhs(self.t, y)
             k2 = self.h * self.model.rhs(self.t + (self.h/2), y + k1)

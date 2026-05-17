@@ -28,9 +28,11 @@ class LotkaVolterra:
         }
     
     def rhs(self, t, state):
-        x, y = state
+        # Time (t) is not used explicitly here because the systme is autonomous,
+        # but for better compatibility is included anyway.
+        prey, predator = state
         
-        dx_dt = self.alpha*x - self.beta*x*y
-        dy_dt = -self.gamma*y + self.delta*x*y
+        dprey_dt = self.alpha*prey - self.beta*prey*predator
+        dpredator_dt = -self.gamma*predator + self.delta*prey*predator
         
-        return np.array([dx_dt, dy_dt])
+        return np.array([dprey_dt, dpredator_dt])

@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class LotkaVolterra:
 
     def __init__(self, alpha=1.1, beta=0.4, gamma=0.4, delta=0.1):
@@ -24,10 +27,10 @@ class LotkaVolterra:
             "delta": self.delta
         }
     
-    def rhs(self, state):
+    def rhs(self, t, state):
         x, y = state
         
         dx_dt = self.alpha*x - self.beta*x*y
         dy_dt = -self.gamma*y + self.delta*x*y
         
-        return [dx_dt, dy_dt]
+        return np.array([dx_dt, dy_dt])

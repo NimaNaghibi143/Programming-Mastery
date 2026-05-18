@@ -43,4 +43,32 @@ class ODESolver:
             self.t_values[i+1] = self.t
         
         return np.round(self.state, 1), self.t_values
+    
+    def RK3(self):
+        self._initialize()
+
+        for i in range(self.N-1):
+            y = self.state[i]
+            k1 = self.h * self.model.rhs(self.t, y)
+            k2 = self.h * self.model.rhs(self.t + (self.h/2), y + k1/2)
+            k3 = self.h * self.model.rhs(self.t + (self.h), y + 2*k2 - k1)
+            self.state[i+1] = y + (k1 + (4*k2) + k3)/6
+            self.t += self.h
+            self.t_values[i+1] = self.t
         
+        return np.round(self.state, 1), self.t_values
+        
+    def RK4(self):
+        self._initialize()
+
+        for i in range(self.N-1):
+            y = self.state[i]
+            k1 = self.h * self.model.rhs(self.t, y)
+            k2 = self.h * self.model.rhs(self.t + (self.h/2), y + k1/2)
+            k3 = self.h * self.model.rhs(self.t + (self.h/2), y + k2/2)
+            k4 = self.h * self.model.rhs(self.t + (self.h), y + k3)
+            self.state[i+1] = y + (k1 + (2*k2) + (2*k3) + k4)/6
+            self.t += self.h
+            self.t_values[i+1] = self.t
+        
+        return np.round(self.state, 1), self.t_values

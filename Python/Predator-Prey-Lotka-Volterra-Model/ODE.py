@@ -37,7 +37,7 @@ class ODESolver:
             # but is there for better compatibility of the code for non-autonomous systems.
             y = self.state[i]
             k1 = self.h * self.model.rhs(self.t, y)
-            k2 = self.h * self.model.rhs(self.t + (self.h/2), y + k1)
+            k2 = self.h * self.model.rhs(self.t + (self.h), y + k1)
             self.state[i+1] = y + (k1+k2)/2
             self.t += self.h
             self.t_values[i+1] = self.t

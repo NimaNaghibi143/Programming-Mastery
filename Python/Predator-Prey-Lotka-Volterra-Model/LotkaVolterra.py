@@ -28,7 +28,7 @@ class LotkaVolterra:
         }
     
     def rhs(self, t, state):
-        # Time (t) is not used explicitly here because the systme is autonomous,
+        # Time (t) is not used explicitly here because the system is autonomous,
         # but for better compatibility is included anyway.
         prey, predator = state
         

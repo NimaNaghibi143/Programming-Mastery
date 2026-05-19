@@ -10,7 +10,6 @@ The owner would like to know the exact relationship between profit and ticket pr
 
 Write a program to figure out the best ticket price (to the nearest 10 cents) that maximizes profit.
 
-
 ## TIPS for running the programs in your own terminal:
 
 ```bash
@@ -20,3 +19,4 @@ python -i <program_name>
 ## Mac:
 python3 -i <rogram_name> 
 ```
+

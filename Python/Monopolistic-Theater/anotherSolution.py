@@ -1,8 +1,10 @@
-BASE_PRICE = 5.0                        # Dollars
-ATTENDEES_PER_DOLLAR = 150              # 150 people per dollar (15 people per 10 cents)
-BASE_ATTENDEES = 120                    # Numbers of attendees at base price
-FIXED_COST = 180.0                      # Dollars
-COST_PER_ATTENDEE = 0.04                # Dollars
+from decimal import Decimal
+
+BASE_PRICE = Decimal('5.0')                        # Dollars
+ATTENDEES_PER_DOLLAR = Decimal('150')              # 150 people per dollar (15 people per 10 cents)
+BASE_ATTENDEES = Decimal('120')                    # Numbers of attendees at base price
+FIXED_COST = Decimal('180.0')                      # Dollars
+COST_PER_ATTENDEE = Decimal('0.04')                # Dollars
 
 def compute_attendees(price):
     return BASE_ATTENDEES - (price - BASE_PRICE)*ATTENDEES_PER_DOLLAR
@@ -18,9 +20,9 @@ def compute_profit(price):
 
 # Loop search params:
 
-LOW_PRICE = 1.0
-HIGH_PRICE = 9.0
-INCREMENT = 0.10
+LOW_PRICE = Decimal('1.0')
+HIGH_PRICE = Decimal('9.0')
+INCREMENT = Decimal('0.10')
 
 def find_ticket_price():
     price = LOW_PRICE
@@ -34,4 +36,5 @@ def find_ticket_price():
             best_profit = profit
     return best_price
 
+# For better data representation you can use round() func or use Decimal module in python.
 print(find_ticket_price())

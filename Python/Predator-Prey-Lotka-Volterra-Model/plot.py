@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from aquarel import load_theme
 
 
@@ -25,6 +26,7 @@ def plot(states, t_values, model_name="Not Set"):
     
     return fig
 
+
 def plot_subplots_grid(results_dict, rows=2, cols=2, figsize=(15, 10)):
     n_methods = len(results_dict)
     n_plots = min(n_methods, rows * cols) # Handle proper number of sections and avoid errors
@@ -48,3 +50,27 @@ def plot_subplots_grid(results_dict, rows=2, cols=2, figsize=(15, 10)):
     plt.tight_layout()
     
     return fig, axes
+
+
+def plot_phase_space(model, solver_class, initial_conditions, h=0.01, N=5000):
+    fig , ax = plt.subplots(figsize=(6,6))
+    
+    colors = plt.cm.Paired(np.linspace(0, 1, len(initial_conditions)))
+    
+    for ic, color in zip(initial_conditions, colors):
+        solver = solver_class(model, ic, h, N)
+        states, _ = solver.RK4()
+        
+        ax.plot(states[:, 0], states[:, 1], color=color, label=f'IC: {ic}')
+        ax.plot(states[0, 0], states[0, 1], 'o', color=color) # Starting point
+    
+    ax.set_xlabel('Prey Population')
+    ax.set_ylabel('Predator Population')
+    ax.set_ylim(bottom=-1)
+    ax.set_xlim(left=-5)
+    ax.set_title('Phase Space Portrait')
+    ax.legend()
+    ax.grid(True, alpha=0.3)
+    plt.tight_layout()
+
+    return fig, ax

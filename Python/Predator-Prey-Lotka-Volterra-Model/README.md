@@ -43,4 +43,9 @@ $$k_4 = hf(x_i + h, y_i + k_3)$$
 
 
 The resulting figures are as below:
-![alt text](result-figures.png "Title")
+
+![Results for various solving methods](result-figures.png "Results")
+
+In addition, the changing trend of Prey vs. Predator population could be plotted for various initial condition setups. By using a proper solver (not Euler since it doesn't result in a repeating cycle solution), the population changes in repeating loops like below:
+
+![Phase Space diagram](phase-space.png "Phase Space")

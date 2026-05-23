@@ -9,18 +9,18 @@
 
 #include <assert.h>
 #include <errno.h>
+#include <stddef.h>
 
 #define TagRoot 1 /* 00 01 */
 #define TagNode 2 /* 00 10 */
 #define TagLeaf 4 /* 01 00 */
 
-typedef void* Nullptr;
-Nullptr nullptr = 0;
+#define NoError     0
 
 #define find_last(x)        find_last_linear(x)
 #define reterr(x) \
     errno = (x); \
-    return nullptr;
+    return NULL // also we could use 0.
 
 typedef unsigned int int32;
 typedef unsigned short int int16;

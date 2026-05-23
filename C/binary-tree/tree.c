@@ -28,6 +28,7 @@ Node *create_node(Node *parent, int8 *path) {
     assert(parent);
     size = sizeof(struct s_node);
     n = (Node *)malloc((int)size);
+    assert(n);
     zero((int8 *)n, size);
 
     parent->west = n;
@@ -53,13 +54,38 @@ Leaf *find_last_linear(Node *parent) {
     return l;
 }
 
-Leaf *create_leaf(Node *parent, int8 *key, int16 size) {
-    Leaf *l;
-    Node *n;
+Leaf *create_leaf(Node *parent, int8 *key, int8 *value, int16 count) {
+    Leaf *l, *new;
+    int16 size;
 
-    assert(west);
-    
-    
+    assert(parent);
+    l = find_last(parent);
+
+    size = sizeof(struct s_leaf);
+    new = (Leaf *)malloc(size);
+    assert(new);
+
+    if (!l) {
+        parent->east = new;
+        // directly connected
+    } else {
+        l->east = new;
+        // l is a leaf
+    }
+    zero((int8 *)new, size);
+    new->tag = TagLeaf;
+    new->west = (!l) ? 
+        (Tree *)parent : 
+    (Tree *)l;
+
+    strncpy((char *)new->key, (char *)key, 127);
+    new->value = (int8 *)malloc(count);
+    zero(new->value, count);
+    assert(new->value);
+    strncpy((char *)new->value, (char *)value, count);
+    new->size = count;
+
+    return new;
 }
 
 int main() {

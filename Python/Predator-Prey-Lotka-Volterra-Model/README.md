@@ -13,9 +13,11 @@ Write a program to plot the population of two groups over time. To solve the ODE
 
 To solve ODEs in the form of $y' = f(x,y)$, one can use the Taylor series or the Runge-Kutta expansion:
 - Taylor series:
+
 $$y{i+1} = y_i + hy'_i + \frac{h^2}{2!}y''_i + ... + \frac{h^n}{n!}y^{(n)}_i$$
 
 - General form of Runge-Kutta:
+
 $$y_{i+1} = y_i + ak_1 + bk_2 + ck_3 + dk_4$$
 
 Regarding these 2 general expansions, we have the following methods:

@@ -7,26 +7,93 @@ fatal() {
     echo  '[fatal]' "$@" >&2
     exit 1
 }
-enable accept || fatal 'failed to load accept'
 
-echo "Listening on http://$ADDRESS:$PORT"
-accept -b "$ADDRESS" -v fd -r ip "$PORT"
+parse-request () {
+    # where we store the meta data: method, version, path, ...
+    declare -gA REQ_INFO=()
+    declare -gA REQ_HEADERS=()
 
-while read -r -u "$fd" line; do 
-    line=${line%$'\r'}
-    echo "got data: $line"
+    local state='status'
+    local line
+    while read -r line; do 
+        line=${line%$'\r'}
 
-    # we are done processing headers
-    # -z means if it's empty a short way!
-    if [[ -z $line ]]; then 
-        break
+        case "$state" in
+                'status')
+                        # parse the status line
+                        local method path version
+                        read -r method path version <<< "$line"
+                        REQ_INFO[method]=$method
+                        REQ_INFO[path]=$path 
+                        REQ_INFO[version]=$version
+                        state='headers'
+                        ;;
+                'headers')
+                        if [[ -z $line ]]; then 
+                            break
+                        fi
+                        # parse the headers
+                        local key value
+                        IFS=: read -r key value <<< "$line"
+                        # make the key lower case, headers are case insensetive
+                        key=${key,,}
+                        value=${value# *}
+                        REQ_HEADERS[$key]=$value
+                        ;;
+                'body')
+                        # pase the body
+                        fatal 'body parsing not supported'
+                        ;;
+        esac
+    done
+}
+
+main (){
+    enable accept || fatal 'failed to load accept'
+
+    echo "Listening on http://$ADDRESS:$PORT"
+
+    local fd ip
+    accept -b "$ADDRESS" -v fd -r ip "$PORT" || fatal 'failed to read socket'
+    parse-request <&$"$fd"
+
+    # validate the request
+    [[ ${REQ_INFO[version]} == 'HTTP/1.1' ]] || fatal 'unsupported http version'
+    [[ ${REQ_INFO[method]} == 'GET' ]] || fatal 'unsupported http method'
+    [[ ${REQ_INFO[path]} == /* ]] || fatal 'path must be absolute'
+
+    echo "${REQ_INFO[method]} ${REQ_INFO[path]}"
+
+    # local line
+    # while read -r -u "$fd" line; do 
+    #     line=${line%$'\r'}
+    #     echo "got data: $line"
+
+    #     # we are done processing headers
+    #     # -z means if it's empty a short way!
+    #     if [[ -z $line ]]; then 
+    #         break
+    #     fi
+    # done
+
+    # if we are here, we should reply to the caller so we need to write to the file scripter
+    # "/file.txt"
+    local path="${REQ_INFO[path]}"
+
+    # "file.txt"
+    path=${path:1}
+
+    if [[ -f $path ]]; then
+        printf 'HTTP/1.1 200 ok\r\n' >&"$fd"
+        printf 'Content-Type: text/plain\r\n' >&"$fd"
+        printf '\r\n' >&"$fd"
+        cat "$path" >&"$fd"
+    else
+        printf 'HTTP/1.1 404 Not Found\r\n' >&"$fd" 
+        printf '\r\n' >&"$fd"
     fi
-done
+    
+    exec {fd}>&-
+}
 
-# if we are here, we should reply to the caller so we need to write to the file scripter
-printf 'HTTP/1.1 200 ok\r\n' >&"$fd"
-printf 'Content-Type: text/plain\r\n' >&"$fd"
-printf '\r\n' >&"$fd"
-cat file.txt >&"$fd"
-
-exec {fd}>&-
+main "$@"

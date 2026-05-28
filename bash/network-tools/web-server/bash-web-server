@@ -1,3 +1,19 @@
 #!/usr/bin/env bash
 
+PORT=8080
+ADDRESS=0.0.0.0
 
+fatal() {
+    echo  '[fatal]' "$@" >&2
+    exit 1
+}
+enable accept || fatal 'failed to load accept'
+
+echo "Listening on http://$ADDRESS:$PORT"
+accept -b "$ADDRESS" -v fd -r ip "$PORT"
+
+while read -r -u "$fd" line; do 
+    echo "got data: $line"  
+done
+
+exec {fd}>&-

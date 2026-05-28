@@ -48,14 +48,9 @@ parse-request () {
     done
 }
 
-main (){
-    enable accept || fatal 'failed to load accept'
-
-    echo "Listening on http://$ADDRESS:$PORT"
-
-    local fd ip
-    accept -b "$ADDRESS" -v fd -r ip "$PORT" || fatal 'failed to read socket'
-    parse-request <&$"$fd"
+process-request(){
+    local fd=$1
+       parse-request <&$"$fd"
 
     # validate the request
     [[ ${REQ_INFO[version]} == 'HTTP/1.1' ]] || fatal 'unsupported http version'
@@ -77,11 +72,17 @@ main (){
     # done
 
     # if we are here, we should reply to the caller so we need to write to the file scripter
-    # "/file.txt"
+    # "/file.txt?query=sth"
     local path="${REQ_INFO[path]}"
 
-    # "file.txt"
+    # "file.txt?query=sth"
     path=${path:1}
+
+    # "file.txt"
+    local query
+    IFS='?' read -r path query <<< "$path"
+
+    echo "trying to find file '$path'"
 
     if [[ -f $path ]]; then
         printf 'HTTP/1.1 200 ok\r\n' >&"$fd"
@@ -94,6 +95,18 @@ main (){
     fi
     
     exec {fd}>&-
+}
+
+main (){
+    enable accept || fatal 'failed to load accept'
+
+    echo "Listening on http://$ADDRESS:$PORT"
+    local fd ip
+
+    while true; do
+        accept -b "$ADDRESS" -v fd -r ip "$PORT" || fatal 'failed to read socket'
+        process-request "$fd"
+    done
 }
 
 main "$@"

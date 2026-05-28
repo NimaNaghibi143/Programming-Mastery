@@ -23,4 +23,10 @@ while read -r -u "$fd" line; do
     fi
 done
 
+# if we are here, we should reply to the caller so we need to write to the file scripter
+printf 'HTTP/1.1 200 ok\r\n' >&"$fd"
+printf 'Content-type: text/plain\r\n' >&"$fd"
+printf '\r\n' >&"$fd"
+printf 'hello!\n' >&"$fd"
+
 exec {fd}>&-

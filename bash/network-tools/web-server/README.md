@@ -71,4 +71,3 @@ echo $line -> "hello!"
 
 exec {fd}>&- # this is how we close the conn
 ```
-

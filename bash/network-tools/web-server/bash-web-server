@@ -13,7 +13,14 @@ echo "Listening on http://$ADDRESS:$PORT"
 accept -b "$ADDRESS" -v fd -r ip "$PORT"
 
 while read -r -u "$fd" line; do 
-    echo "got data: $line"  
+    line= ${line%$'\r'}
+    echo "got data: $line"
+
+    # we are done processing headers
+    # -z means if it's empty a short way!
+    if [[ -z $line ]] then 
+        break
+    fi
 done
 
 exec {fd}>&-

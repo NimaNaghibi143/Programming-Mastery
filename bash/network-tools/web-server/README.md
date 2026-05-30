@@ -73,4 +73,8 @@ echo $line -> "hello!"
 # if have payed enouph attention the other terminal netcating the localhost is still runnning! how do we close it? 
 
 exec {fd}>&- # this is how we close the conn
+
+# check this path reversal demonestartion:
+
+printf 'GET /../../../../../../etc/passwd HTTP/1.1\r\n\r\n' | nc localhost:8080
 ```

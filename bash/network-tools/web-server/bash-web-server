@@ -8,6 +8,13 @@ fatal() {
     exit 1
 }
 
+# this func is inspired by the repo "bash bible"
+urldecode() {
+    # usage: urldecode string
+    : ${1//+/ }
+    printf '%b\n' "${_//%/\\x}"
+}
+
 parse-request () {
     # where we store the meta data: method, version, path, ...
     declare -gA REQ_INFO=()
@@ -72,15 +79,18 @@ process-request(){
     # done
 
     # if we are here, we should reply to the caller so we need to write to the file scripter
-    # "/file.txt?query=sth"
+    # "/foo%20bar.txt?query=sth"
     local path="${REQ_INFO[path]}"
 
-    # "file.txt?query=sth"
+    # "foo%20bar.txt?query=sth"
     path=${path:1}
 
-    # "file.txt"
+    # "foo%20bar.txt"
     local query
     IFS='?' read -r path query <<< "$path"
+
+    # "foo bar.txt"
+    path=$(urldecode "$path")
 
     echo "trying to find file '$path'"
 

@@ -9,6 +9,7 @@ int main()
     int toUnit      {2};
     double value    {0};
 
+    choose_category:
     std::cout << "\n==== Welcome to the Unit Converter CLI tool! ====\n\n";
     std::cout << "Please select the conversion category:\n";
     std::cout << "1. Pressure\n";
@@ -34,7 +35,6 @@ int main()
         }
     }
 
-    choose_category:
     if (category == 1)
     {
         // Pressure conversion
@@ -75,14 +75,22 @@ int main()
 
         std::cout << "From unit: ";
         std::cin >> fromUnit;
-        std::cout << "From unit: ";
+        std::cout << "To unit: ";
         std::cin >> toUnit;
         std::cout << "Value: ";
         std::cin >> value;
 
-        std::cout   << "\nConverting value " << value 
-                    << " from " << TemperatureUnit::toString(fromUnit)
-                    << " to " << TemperatureUnit::toString(toUnit);
+        std::string fromUnitString {TemperatureUnit::toString(fromUnit)};
+        std::string toUnitString {TemperatureUnit::toString(toUnit)};
+
+        std::cout << "\nConverting value " << value << " from " << fromUnitString << " to " << toUnitString;
+
+        double result =
+            convertTemperature(value,
+                            fromUnitString,
+                            toUnitString);
+
+        std::cout << "\n" << value << " " << fromUnitString << " = " << result << " " << toUnitString << "\n";
     }
 
     else if (category == 3)
@@ -95,19 +103,29 @@ int main()
 
         std::cout << "From unit: ";
         std::cin >> fromUnit;
-        std::cout << "From unit: ";
+        std::cout << "To unit: ";
         std::cin >> toUnit;
         std::cout << "Value: ";
         std::cin >> value;
 
-        std::cout   << "\nConverting value " << value 
-                    << " from " << EnergyUnit::toString(fromUnit)
-                    << " to " << EnergyUnit::toString(toUnit) << "\n";
+        std::string fromUnitString {EnergyUnit::toString(fromUnit)};
+        std::string toUnitString {EnergyUnit::toString(toUnit)};
+
+        std::cout << "\nConverting value " << value << " from " << fromUnitString << " to " << toUnitString;
+
+        double result =
+            convertEnergy(value,
+                            fromUnitString,
+                            toUnitString);
+
+        std::cout << "\n" << value << " " << fromUnitString << " = " << result << " " << toUnitString << "\n";
     }
     
     // Stop terminal windows to close after the job is done
-    std::cout << "\nPress Enter to exit...";
+    std::cout << "\nPress Enter to convert again. Close terminal to exit.";
     std::cin.get();
-    std::cin.get();
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    goto choose_category;
     return 0;
 }

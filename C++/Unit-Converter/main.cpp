@@ -15,8 +15,24 @@ int main()
     std::cout << "2. Temperature\n";
     std::cout << "3. Energy\n";
 
-    std::cout << "Choice number: ";
-    std::cin  >> category;
+    while (true) {
+        std::cout << "Choice number: ";
+        std::cin >> category;
+        
+        // Check if input failed (not an int)
+        if (std::cin.fail()) {
+            std::cout << "Invalid input! Please enter a number (1, 2, or 3).\n";
+            std::cin.clear();  // Clear the error state
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Remove invalid input
+        } 
+        // Check if category is within valid range
+        else if (category >= 1 && category <= 3) {
+            break;  // Valid input, exit the loop
+        } 
+        else {
+            std::cout << "Invalid choice! Please enter 1, 2, or 3.\n";
+        }
+    }
 
     choose_category:
     if (category == 1)
@@ -87,13 +103,6 @@ int main()
         std::cout   << "\nConverting value " << value 
                     << " from " << EnergyUnit::toString(fromUnit)
                     << " to " << EnergyUnit::toString(toUnit) << "\n";
-    }
-
-    else
-    {
-        std::cout << "Please choose a number from the options above: \n";
-        std::cin >> category;
-        goto choose_category;
     }
     
     // Stop terminal windows to close after the job is done

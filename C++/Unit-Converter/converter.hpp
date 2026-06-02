@@ -10,3 +10,22 @@ struct ConversionResults
     std::string inputUnit;
     std::string outputUnit;
 };
+
+// Ading forward declarations in header file to avoid compilation errors
+double convertPressure(
+    double value,
+    const std::string& from,
+    const std::string& to
+);
+
+double convertTemperature(
+    double value,
+    const std::string& from,
+    const std::string& to
+);
+
+double convertEnergy(
+    double value,
+    const std::string& from,
+    const std::string& to
+);

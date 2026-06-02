@@ -17,7 +17,7 @@ int main()
     std::cout << "3. Energy\n";
 
     while (true) {
-        std::cout << "Choice number: ";
+        std::cout << "\nCategory number: ";
         std::cin >> category;
         
         // Check if input failed (not an int)
@@ -44,7 +44,7 @@ int main()
         std::cout << "3. Atm\n";
         std::cout << "4. Psi\n";
 
-        std::cout << "From unit: ";
+        std::cout << "\nFrom unit: ";
         std::cin >> fromUnit;
         std::cout << "To unit: ";
         std::cin >> toUnit;
@@ -54,13 +54,14 @@ int main()
         std::string fromUnitString {PressureUnit::toString(fromUnit)};
         std::string toUnitString {PressureUnit::toString(toUnit)};
 
-        std::cout << "\nConverting value " << value << " from " << fromUnitString << " to " << toUnitString;
+        std::cout << "\nConverting value " << value << " from " << fromUnitString << " to " << toUnitString << " ...";
 
         double result =
             convertPressure(value,
                             fromUnitString,
                             toUnitString);
 
+        std::cout << "\n\nConversion result:";
         std::cout << "\n" << value << " " << fromUnitString << " = " << result << " " << toUnitString << "\n";
     }
 
@@ -73,7 +74,7 @@ int main()
         std::cout << "3. F\n";
         std::cout << "4. R\n";
 
-        std::cout << "From unit: ";
+        std::cout << "\nFrom unit: ";
         std::cin >> fromUnit;
         std::cout << "To unit: ";
         std::cin >> toUnit;
@@ -83,13 +84,14 @@ int main()
         std::string fromUnitString {TemperatureUnit::toString(fromUnit)};
         std::string toUnitString {TemperatureUnit::toString(toUnit)};
 
-        std::cout << "\nConverting value " << value << " from " << fromUnitString << " to " << toUnitString;
+        std::cout << "\nConverting value " << value << " from " << fromUnitString << " to " << toUnitString << " ...";
 
         double result =
             convertTemperature(value,
                             fromUnitString,
                             toUnitString);
 
+        std::cout << "\n\nConversion result:";
         std::cout << "\n" << value << " " << fromUnitString << " = " << result << " " << toUnitString << "\n";
     }
 
@@ -101,7 +103,7 @@ int main()
         std::cout << "2. Cal\n";
         std::cout << "3. Btu\n";
 
-        std::cout << "From unit: ";
+        std::cout << "\nFrom unit: ";
         std::cin >> fromUnit;
         std::cout << "To unit: ";
         std::cin >> toUnit;
@@ -111,13 +113,14 @@ int main()
         std::string fromUnitString {EnergyUnit::toString(fromUnit)};
         std::string toUnitString {EnergyUnit::toString(toUnit)};
 
-        std::cout << "\nConverting value " << value << " from " << fromUnitString << " to " << toUnitString;
+        std::cout << "\nConverting value " << value << " from " << fromUnitString << " to " << toUnitString << " ...";
 
         double result =
             convertEnergy(value,
                             fromUnitString,
                             toUnitString);
-
+        
+        std::cout << "\n\nConversion result:";
         std::cout << "\n" << value << " " << fromUnitString << " = " << result << " " << toUnitString << "\n";
     }
     

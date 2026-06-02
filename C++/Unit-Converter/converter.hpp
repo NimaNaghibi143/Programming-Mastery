@@ -62,15 +62,6 @@ struct EnergyUnit
     }
 };
 
-// Result class for history loging
-struct ConversionResults
-{
-    double inputValue;
-    double outputValue;
-    std::string inputUnit;
-    std::string outputUnit;
-};
-
 // Ading forward declarations in header file to avoid compilation errors
 double convertPressure(
     double value,

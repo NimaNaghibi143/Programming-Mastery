@@ -10,7 +10,7 @@ int main()
     double value    {0};
 
     std::cout << "\n==== Welcome to the Unit Converter CLI tool! ====\n\n";
-    std::cout << "Please select the convertion category:\n";
+    std::cout << "Please select the conversion category:\n";
     std::cout << "1. Pressure\n";
     std::cout << "2. Temperature\n";
     std::cout << "3. Energy\n";
@@ -21,7 +21,7 @@ int main()
     choose_category:
     if (category == 1)
     {
-        // Pressure convertion
+        // Pressure conversion
         std::cout << "\nAvailable Pressure Units:\n";
         std::cout << "1. Pa\n";
         std::cout << "2. Bar\n";
@@ -50,7 +50,7 @@ int main()
 
     else if (category == 2)
     {
-        // Temperature convertion
+        // Temperature conversion
         std::cout << "\nAvailable Temperature Units:\n";
         std::cout << "1. K\n";
         std::cout << "2. C\n";
@@ -71,7 +71,7 @@ int main()
 
     else if (category == 3)
     {
-        // Energy convertion
+        // Energy conversion
         std::cout << "\nAvailable Energy Units:\n";
         std::cout << "1. J\n";
         std::cout << "2. Cal\n";

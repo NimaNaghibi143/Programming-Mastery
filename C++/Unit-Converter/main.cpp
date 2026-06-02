@@ -1,7 +1,6 @@
 #include "converter.hpp"
 #include <iostream>
 
-
 int main()
 {
     int category    {1};
@@ -78,16 +77,19 @@ int main()
 
         std::cout   << "\nConverting value " << value 
                     << " from " << EnergyUnit::toString(fromUnit)
-                    << " to " << EnergyUnit::toString(toUnit);
+                    << " to " << EnergyUnit::toString(toUnit) << "\n";
     }
 
     else
     {
-        std::cout << "Please choose a number from the options above: ";
+        std::cout << "Please choose a number from the options above: \n";
         std::cin >> category;
         goto choose_category;
     }
     
-
+    // Stop terminal windows to close after the job is done
+    std::cout << "\nPress Enter to exit...";
+    std::cin.get();
+    std::cin.get();
     return 0;
 }

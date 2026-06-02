@@ -14,5 +14,29 @@ int main()
     std::cout << "Choice number: ";
     std::cin  >> category;
 
+    choose_category:
+    if (category == 1)
+    {
+        // Pressure convertion
+    }
+
+    else if (category == 2)
+    {
+        // Temperature convertion
+    }
+
+    else if (category == 3)
+    {
+        // Energy convertion
+    }
+
+    else
+    {
+        std::cout << "Please choose a number from the options above: ";
+        std::cin >> category;
+        goto choose_category;
+    }
+    
+
     return 0;
 }

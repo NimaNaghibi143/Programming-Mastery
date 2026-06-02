@@ -1,4 +1,5 @@
 #include "converter.hpp"
+#include "converter.cpp"
 #include <iostream>
 
 int main()
@@ -29,14 +30,22 @@ int main()
 
         std::cout << "From unit: ";
         std::cin >> fromUnit;
-        std::cout << "From unit: ";
+        std::cout << "To unit: ";
         std::cin >> toUnit;
         std::cout << "Value: ";
         std::cin >> value;
 
-        std::cout   << "\nConverting value " << value 
-                    << " from " << PressureUnit::toString(fromUnit)
-                    << " to " << PressureUnit::toString(toUnit);
+        std::string fromUnitString {PressureUnit::toString(fromUnit)};
+        std::string toUnitString {PressureUnit::toString(toUnit)};
+
+        std::cout << "\nConverting value " << value << " from " << fromUnitString << " to " << toUnitString;
+
+        double result =
+            convertPressure(value,
+                            fromUnitString,
+                            toUnitString);
+
+        std::cout << "\n" << value << " " << fromUnitString << " = " << result << " " << toUnitString << "\n";
     }
 
     else if (category == 2)

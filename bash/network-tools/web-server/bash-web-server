@@ -8,6 +8,24 @@ fatal() {
     exit 1
 }
 
+list-directory () {
+    local d=$1
+
+    echo '<h1> Directory listing </h1>'
+    echo "<h2>Directory: $d</h2>"
+    echo '<hr>'
+    echo '<ul>'
+    for f in "$d"/*; do 
+        f=${f##*/} # Start from the left, anything up into the final "/" character and delete anything up into that "/" character. 
+        printf '<li><a href="%s">%s</a></li>\n' \
+            "$f" "$f"
+        echo ...
+    done
+
+    echo '</ul>'
+    echo '</hr>'
+}
+
 # this func is inspired by the repo "bash bible"
 urldecode() {
     # usage: urldecode string
@@ -120,6 +138,8 @@ process-request(){
     # "foo bar.txt"
    path=${path:1}
 
+   # handle empty path (root path)
+
     echo "trying to find file '$path'"
 
     if [[ -f $path ]]; then
@@ -127,6 +147,11 @@ process-request(){
         printf 'Content-Type: text/plain\r\n' >&"$fd"
         printf '\r\n' >&"$fd"
         cat "$path" >&"$fd"
+    elif [[ -d $path ]]; then
+        printf 'HTTP/1.1 200 ok\r\n' >&"$fd"
+        printf 'Content-Type: text/html\r\n' >&"$fd"
+        printf '\r\n' >&"$fd"
+        list-directory "$path" >&"$fd" 
     else
         printf 'HTTP/1.1 404 Not Found\r\n' >&"$fd" 
         printf '\r\n' >&"$fd"

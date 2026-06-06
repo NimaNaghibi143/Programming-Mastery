@@ -93,13 +93,3 @@ n  = create_node((Node *)&root, (int8 *)"/Users");
 n2 = create_node(n, (int8 *)"Users/login");
 printf("%p %p\n", n, n2);
 ```
-
-## Notes & Caveats
-
-- The name *binary tree* is a misnomer: each node has one child node and an
-  arbitrary-length list of leaves — closer to a filesystem trie than to a
-  textbook BST.
-- Path and key buffers are fixed-size (`256` / `128`) and copied with
-  `strncpy` — long inputs are truncated, not rejected.
-- Only the demo's local pointers are `free`d. The static `root` and any
-  attached leaves are not torn down on exit.

@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+1. Declare a head pointer and make it as NULL.
+2. Create a new node with the given data.
+3. Make the new node points to the head node.
+4. Finally, make the new node as the head node.
+*/
+
 struct node {
     int data;
     struct node *next;

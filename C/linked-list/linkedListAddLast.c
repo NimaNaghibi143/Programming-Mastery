@@ -27,10 +27,10 @@ void addLast(struct node **head, int val) {
     }
     //Otherwise, find the last node and add the newNode
     else {
-        struct node *lastNode = head;
+        struct node *lastNode = *head;
 
         while (lastNode->next != NULL) {
-            lastNode->next = lastNode;
+            lastNode = lastNode->next;
         }
 
         lastNode->next = newNode;
@@ -38,14 +38,14 @@ void addLast(struct node **head, int val) {
     }
 }
 
-void printlist (struct node *head) {
+void printList (struct node *head) {
     struct node *temp = head;
 
     while (temp != NULL) {
         printf("%d->", temp->data);
         temp = temp->next;
     }
-    print("NULL\n");
+    printf("NULL\n");
 }
 
 int main() {

@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/resource-table.png" alt="Programming languages consuming CPU, RAM, memory, I/O, and energy resources" width="100%" />
+<img src="./assets/banner.png" alt="Programming languages consuming CPU, RAM, memory, I/O, and energy resources" width="100%" />
 
 # Programming Mastery
 

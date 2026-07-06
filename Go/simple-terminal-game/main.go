@@ -14,6 +14,18 @@ const (
 	MAX_SAMPLES = 100
 )
 
+type position struct {
+	x, y int
+}
+type player struct {
+	pos   position
+	level *level
+}
+
+func (p *player) update() {
+
+}
+
 type stats struct {
 	start  time.Time
 	frames int
@@ -32,6 +44,7 @@ func (s *stats) update() {
 	if s.frames == MAX_SAMPLES {
 		s.fps = float64(s.frames) / time.Since(s.start).Seconds()
 		s.frames = 0
+		s.start = time.Now()
 	}
 }
 
@@ -77,7 +90,9 @@ type game struct {
 	isRunning bool
 	level     *level
 	stats     *stats
-	drawBuf   *bytes.Buffer
+	player    *player
+
+	drawBuf *bytes.Buffer
 }
 
 func newGame(width, height int) *game {
@@ -85,6 +100,11 @@ func newGame(width, height int) *game {
 	return &game{
 		level:   lvl,
 		drawBuf: new(bytes.Buffer),
+		stats:   newStats(),
+		player: &player{
+			level: lvl,
+			pos:   position{x: 2, y: 5},
+		},
 	}
 }
 func (g *game) start() {
@@ -133,7 +153,7 @@ func (g *game) render() {
 
 func (g *game) renderStats() {
 	g.drawBuf.WriteString("-- STATS\n")
-	g.drawBuf.WriteString(fmt.Sprintf("FPS: %.2f", 3.3))
+	g.drawBuf.WriteString(fmt.Sprintf("FPS: %.2f\n", g.stats.fps))
 }
 
 func main() {

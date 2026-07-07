@@ -1,0 +1,18 @@
+<div align="center">
+
+  <img src="./assets/linked-list-go.jpg" alt="simple-golang-pic" width="100%" />
+
+# Linked lists in GO
+
+A Linked list is a data structure with a finite set of elements where each element uses at
+least two memory locations, one for storing the actual data and the other for storing a
+pointer that links the current element to the next one, thus creating a sequence of elements
+that construct the linked list.
+
+</dev>
+
+The first element of a linked list is called the head whereas the last element of a linked list is
+often called the tail. The first thing that you should do when defining a linked list is to keep
+the head of the list in a separate variable because the head is the only thing that you have to
+access the entire linked list. Note that if you lose the pointer to that first node of a single
+linked list, there is no way to find it again.

@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"strconv"
+)
 
 type User struct {
 	ID       int
@@ -24,6 +29,19 @@ func NewServer() *Server {
 	return &Server{
 		db: db,
 	}
+}
+
+func (s *Server) handleGetUser(w http.ResponseWriter, r *http.Request) {
+	idStr := r.URL.Query().Get("id")
+	id, _ := strconv.Atoi(idStr)
+
+	user, ok := s.db[id]
+
+	if !ok {
+		panic("User not found")
+	}
+
+	json.NewEncoder(w).Encode(user)
 }
 
 func main() {

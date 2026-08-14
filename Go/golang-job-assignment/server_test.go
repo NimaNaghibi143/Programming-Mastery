@@ -30,4 +30,5 @@ func TestHandleGetUser(t *testing.T) {
 
 		fmt.Printf("%v\n", user)
 	}
+	fmt.Println("times we hit the database:", s.dbhit)
 }

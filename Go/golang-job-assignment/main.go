@@ -13,7 +13,9 @@ type User struct {
 }
 
 type Server struct {
-	db map[int]*User
+	db    map[int]*User
+	cache map[int]*User
+	dbhit int
 }
 
 func NewServer() *Server {
@@ -27,19 +29,37 @@ func NewServer() *Server {
 	}
 
 	return &Server{
-		db: db,
+		db:    db,
+		cache: make(map[int]*User),
 	}
+}
+
+func (s *Server) tryCache(id int) (*User, bool) {
+	user, ok := s.cache[id]
+	return user, ok
 }
 
 func (s *Server) handleGetUser(w http.ResponseWriter, r *http.Request) {
 	idStr := r.URL.Query().Get("id")
 	id, _ := strconv.Atoi(idStr)
 
-	user, ok := s.db[id]
+	// First try to hit the cache
+	user, ok := s.cache[id]
 
+	if ok {
+		json.NewEncoder(w).Encode(user)
+		return
+	}
+
+	// hit the database
+	user, ok = s.db[id]
 	if !ok {
 		panic("User not found")
 	}
+	s.dbhit++
+
+	// insert in the cache
+	s.cache[id] = user
 
 	json.NewEncoder(w).Encode(user)
 }
